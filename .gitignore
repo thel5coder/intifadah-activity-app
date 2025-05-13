@@ -7,8 +7,9 @@ __pycache__/
     # Virtual environment
 venv/
 myenv/
+env/
 
-.env
+intifadahactivity/.env
 
     # Package distribution
 *.egg
