@@ -8,6 +8,8 @@ __pycache__/
 venv/
 myenv/
 
+.env
+
     # Package distribution
 *.egg
 *.whl
