@@ -35,7 +35,9 @@ urlpatterns = [
     path('user/', user.create, name='user-create'),
 
     path('activity/', activity.index, name='activity-list'),
+    path('activity/all',activity.all_activity, name='activity-all'),
     path('activity/create', activity.create, name='activity-create'),
+    path('activity/statistics',activity.activity_statistics, name='activity-statistics'),
 
     path("activity/status/<int:activity_id>", activity.update_status, name="activity-update-status"),
     path("activity/update/<int:activity_id>", activity.update, name='activity-update'),

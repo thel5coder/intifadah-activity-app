@@ -7,10 +7,10 @@ from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from managementactivity.models import ActivityApproval
+from django.contrib.auth.models import User
 
 
 def index(request):
-    print(request.user.id)
     activities = ManagerialActivity.objects.filter(ManagerialUser_id=request.user.id)
     for activity in activities:
         activity.status = {'value': ActivityStatus.get_key_text(activity.ActivityStatus),
@@ -19,6 +19,17 @@ def index(request):
         activity.ActivityDateTime = formatted_time
 
     return render(request, 'manajerialactivity/list.html', {'activities': activities})
+
+def all_activity(request):
+    activities = ManagerialActivity.objects.all()
+    for activity in activities:
+        activity.status = {'value': ActivityStatus.get_key_text(activity.ActivityStatus),
+                           'badge': ActivityStatus.get_badge_status(activity.ActivityStatus)}
+        formatted_time = datetime.fromtimestamp(activity.ActivityDateTime).strftime('%d-%m-%Y %H:%M')
+        activity.ActivityDateTime = formatted_time
+        activity.userManagerial = User.objects.filter(id=activity.ManagerialUser_id).first()
+
+    return render(request, 'manajerialactivity/all.html', {'activities': activities})
 
 
 def create(request):
@@ -97,10 +108,14 @@ def update_status(request, activity_id):
 
     if request.method == 'POST' and is_can_update_status:
         activity.ActivityStatus = request.POST['activityStatus']
+        activity.ActivityScore = request.POST['activityScore']
         activity.save()
-        return redirect('activity-list')
+        return redirect('activity-all')
 
     formatted_time = datetime.fromtimestamp(activity.ActivityDateTime).strftime('%d-%m-%Y %H:%M')
     activity.ActivityDateTime = formatted_time
     return render(request, 'manajerialactivity/update_status.html',
                   {'activity': activity, 'activityTypes': activity_types, 'is_can_update_status': is_can_update_status})
+
+def activity_statistics(request):
+    return render(request,'manajerialactivity/statistics.html')

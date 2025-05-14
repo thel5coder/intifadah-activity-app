@@ -20,10 +20,11 @@
     </script>
 {% endblock %}
 {% block content %}
-    <div class="container-fluid">
+    <div class="container-fluid mb-5 mt-5">
         <div class="row">
             <div class="col">
-                <form method="POST" class="form-validate" enctype="multipart/form-data">
+                <form method="POST" class="form-validate">
+                {% csrf_token %}
                     <div class="card mb-1 border-0">
                         <div class="card-header py-3">Ubah Status</div>
                         <div class="card-body">
@@ -64,7 +65,7 @@
                                     <div class="form-group">
                                         <label for="exampleFormControlTextarea1">Status</label>
                                         <select class="form-control" id="activityStatus"
-                                                name="activityType" required>
+                                                name="activityStatus" required>
                                             <option value="">Pilih Status</option>
                                             <option value=0>Tolak</option>
                                             <option value=1>Setujui</option>
@@ -75,15 +76,19 @@
                                         <textarea class="form-control" id="exampleFormControlTextarea1"
                                                   rows="3" name="rejectedReason"></textarea>
                                     </div>
+                                <div class="form-group">
+                                    <label for="activityScoreTextArea">Skor</label>
+                                    <input type="text" class="form-control" id="activityScore" name="activityScore" placeholder="Masukkan skor 1 sampai 5"/>
+                                </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer py-4">
-                            <a href="{% url 'activity-list' %}" class="btn btn-primary float-left">
+                            <a href="{% url 'activity-all' %}" class="btn btn-primary float-left">
                                 Batal
                             </a>
                             <button type="submit" class="btn btn-primary float-right">
-                                Ubah
+                                Simpan
                             </button>
                         </div>
                     </div>
