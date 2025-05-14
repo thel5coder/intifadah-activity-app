@@ -85,7 +85,7 @@ class ManagerialActivity(TimeStampModel):
         db_table = 'managerial_activities'
         verbose_name_plural = 'Managerial Activities'
         permissions = [
-            ("update_ActivityStatus", "Dapat merubah status aktivitas")
+            ("update_activity_status", "Dapat merubah status aktivitas")
         ]
 
     def __str__(self):

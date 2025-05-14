@@ -1,88 +1,40 @@
 {% extends 'base/base.html' %}
 {% load static %}
 {% block content %}
-    <div id="content-wrapper" class="d-flex flex-column">
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">Kegiatan Saya</div>
+                    <div class="card-body">
+                        <div class="row">
+                            {% for activity in activities %}
+                                <div class="col">
+                                    <div class="card mb-2" style="width: 18rem;">
+                                        <img class="card-img-top" src="{{ activity.ActivityImage.url }}"
+                                             width="286" height="180">
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                {{ activity.ActivityType }} <span
+                                                    class="badge {{ activity.status.badge }}">{{ activity.status.value }}</span>
+                                            </h5>
 
-            <!-- Topbar Navbar -->
-            <ul class="navbar-nav ml-auto">
-
-                <div class="topbar-divider d-none d-sm-block"></div>
-                <!-- Nav Item - User Information -->
-                <li class="nav-item dropdown no-arrow">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                            {% if user.is_authenticated %}
-                                 Selamat Datang , {{ user.first_name }}
-                             {% endif %}
-                        </span>
-                        <img class="img-profile rounded-circle"
-                             src="{% static 'img/undraw_profile.svg' %}">
-                    </a>
-                    <!-- Dropdown - User Information -->
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
-                        <a class="dropdown-item" href="/logout/">
-                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Logout
-                        </a>
-                    </div>
-                </li>
-            </ul>
-
-        </nav>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">Kegiatan Saya</div>
-                        <div class="card-body">
-                            <div class="row">
-                                {% for activity in activities %}
-                                    <div class="col">
-                                        <div class="card" style="width: 18rem;">
-                                            <img class="card-img-top" src="{{ activity.ActivityImage.url }}"
-                                                 width="286" height="180">
-                                            <div class="card-body">
-                                                <h5 class="card-title">
-                                                    {{ activity.ActivityType }} <span
-                                                        class="badge {{ activity.status.badge }}">{{ activity.status.value }}</span>
-                                                </h5>
-
-                                                <h6 class="card-subtitle mb-2 text-muted">{{ activity.ActivityDateTime }}</h6>
-                                                <p class="card-text text-muted">Kegiatan
-                                                    = {{ activity.ActivityDetail }}</p>
-                                                <p class="card-text text-muted">Hasil
-                                                    = {{ activity.ActivityResult }}</p>
-                                                <a href="{% url 'activity-update' activity.id %}" class="btn btn-secondary">Ubah</a>
-                                                <a href="{% url 'activity-delete' activity.id %}" class="btn btn-warning">Hapus</a>
-                                            </div>
+                                            <h6 class="card-subtitle mb-2 text-muted">{{ activity.ActivityDateTime }}</h6>
+                                            <p class="card-text text-muted">Kegiatan
+                                                = {{ activity.ActivityDetail }}</p>
+                                            <p class="card-text text-muted">Hasil
+                                                = {{ activity.ActivityResult }}</p>
+                                            <a href="{% url 'activity-update' activity.id %}" class="btn btn-secondary">Ubah</a>
+                                            <a href="{% url 'activity-delete' activity.id %}" class="btn btn-warning">Hapus</a>
                                         </div>
                                     </div>
-                                {% endfor %}
-                            </div>
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="{% url 'activity-create' %}" class="btn btn-primary btn-icon-split">
-                            <span class="icon text-white-50"><i class="fas fa-pencil-alt"></i></span>
-                            <span class="text">Tambah Kegiatan</span>
-                        </a>
-                        <a href="{% url 'activity-list' %}" class="btn btn-primary btn-icon-split">
-                            <span class="icon text-white-50"><i class="fas fa-briefcase"></i></span>
-                            <span class="text">Kegiatan Saya</span>
-                        </a>
-                        <button type="button" class="btn btn-primary btn-icon-split">
-                            <span class="icon text-white-50"><i class="fas fa-chart-bar"></i></span>
-                            <span class="text">Lihat Statistik</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
         </div>
+
     </div>
 {% endblock %}

@@ -24,7 +24,10 @@ def index(request):
 def create(request):
     if request.method == 'POST':
         activity = ManagerialActivity()
-        activity.ActivityImage = request.FILES['activityImage']
+        if 'activityImage' in request.FILES :
+            activity.ActivityImage = request.FILES['activityImage']
+        else:
+            activity.ActivityImage = 'blank.png'
         activity.ActivityDetail = request.POST['activityDetail']
         activity.ActivityResult = request.POST['activityResult']
         activity.ActivityStatus = ActivityStatus.WAITING_APPROVAL
@@ -43,7 +46,10 @@ def create(request):
 def update(request, activity_id):
     activity = ManagerialActivity.objects.get(id=activity_id)
     if request.method == 'POST':
-        activity.ActivityImage = request.FILES['activityImage']
+        if 'activityImage' in request.FILES:
+            activity.ActivityImage = request.FILES['activityImage']
+        else:
+            activity.ActivityImage = 'blank.png'
         activity.ActivityDetail = request.POST['activityDetail']
         activity.ActivityResult = request.POST['activityResult']
         date_str = request.POST['activityDateTime']
@@ -60,7 +66,6 @@ def update(request, activity_id):
 
     formatted_time = datetime.fromtimestamp(activity.ActivityDateTime).strftime('%d-%m-%Y %H:%M')
     activity.ActivityDateTime = formatted_time
-    print(vars(activityTypes))
     return render(request, 'manajerialactivity/update.html', {'activity': activity, 'activityTypes': activityTypes})
 
 
