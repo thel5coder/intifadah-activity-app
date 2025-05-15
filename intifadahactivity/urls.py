@@ -29,7 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', include('pwa.urls')),
-    path('login/', view.login_view, name='login'),
+    path('', view.login_view, name='login'),
     path('logout/', view.logout_view, name='logout'),
     path('dashboard/', dashboard.dashboard, name='dashboard'),
     path('activity-type/', activitytype.index, name='activitytype'),

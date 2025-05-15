@@ -126,8 +126,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'dashboard/'
-LOGOUT_REDIRECT_URL = 'login/'
-LOGIN_URL = 'login/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/'
 LOG_LEVEL = config('LOG_LEVEL', default='DEBUG')
 
 PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
@@ -137,7 +137,7 @@ PWA_APP_DESCRIPTION = "Jurnal Kegiatan Manajerial Intifadah"
 PWA_APP_DISPLAY = 'standalone'
 PWA_APP_SCOPE = '/'
 PWA_APP_ORIENTATION = 'portrait'
-PWA_APP_START_URL = '/'
+PWA_APP_START_URL = 'login/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {
