@@ -16,7 +16,7 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 from managementactivity.templates.login import view
 from managementactivity.templates.dashboard import view as dashboard
 from managementactivity.templates.activitytype import view as activitytype
@@ -27,7 +27,9 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', view.login_view, name='login'),
+
+    path('', include('pwa.urls')),
+    path('login/', view.login_view, name='login'),
     path('logout/', view.logout_view, name='logout'),
     path('dashboard/', dashboard.dashboard, name='dashboard'),
     path('activity-type/', activitytype.index, name='activitytype'),
@@ -35,9 +37,9 @@ urlpatterns = [
     path('user/', user.create, name='user-create'),
 
     path('activity/', activity.index, name='activity-list'),
-    path('activity/all',activity.all_activity, name='activity-all'),
+    path('activity/all', activity.all_activity, name='activity-all'),
     path('activity/create', activity.create, name='activity-create'),
-    path('activity/statistics',activity.activity_statistics, name='activity-statistics'),
+    path('activity/statistics', activity.activity_statistics, name='activity-statistics'),
 
     path("activity/status/<int:activity_id>", activity.update_status, name="activity-update-status"),
     path("activity/update/<int:activity_id>", activity.update, name='activity-update'),

@@ -8,7 +8,7 @@ def login_view(request):
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
-            return redirect('dashboard/')
+            return redirect('/dashboard/')
         else:
             print(form.errors)
             return render(request, 'login/login.html', {'errors': form.errors})
@@ -16,7 +16,7 @@ def login_view(request):
         form = AuthenticationForm()
 
     if request.user.is_authenticated:
-        return redirect('dashboard/')
+        return redirect('/dashboard/')
 
     return render(request, 'login/login.html', {'form': form})
 
