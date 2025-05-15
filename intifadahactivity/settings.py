@@ -25,7 +25,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.110.184','192.168.110.1','192.168.110.12','localhost','127.0.0.1']
 
 # Application definition
 
@@ -126,8 +126,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'dashboard/'
-LOGOUT_REDIRECT_URL = '/'
-LOGIN_URL = '/'
+LOGOUT_REDIRECT_URL = 'login/'
+LOGIN_URL = 'login/'
 LOG_LEVEL = config('LOG_LEVEL', default='DEBUG')
 
 PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
@@ -135,9 +135,9 @@ PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js'
 PWA_APP_NAME = 'Intifadah Manajerial'
 PWA_APP_DESCRIPTION = "Jurnal Kegiatan Manajerial Intifadah"
 PWA_APP_DISPLAY = 'standalone'
-PWA_APP_SCOPE = '/'
+# PWA_APP_SCOPE = '/'
 PWA_APP_ORIENTATION = 'portrait'
-PWA_APP_START_URL = 'login/'
+# PWA_APP_START_URL = 'login/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {
