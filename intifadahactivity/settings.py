@@ -73,7 +73,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
@@ -112,4 +112,3 @@ PWA_APP_ICONS_APPLE = [
 
 PWA_APP_DIR = 'ltr'
 PWA_APP_LANG = 'en-US'
-

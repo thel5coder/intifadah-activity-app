@@ -12,7 +12,6 @@ services:
       - .:/app
       - static_volume:/app/staticfiles
       - media_volume:/app/media
-      - static:/app/static
     ports:
       - "9000:9000"
     env_file:
