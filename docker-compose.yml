@@ -25,7 +25,7 @@ services:
     image: postgres:17
     environment:
       POSTGRES_DB: intifadah-dev
-      POSTGRES_USER: postgres
+      POSTGRES_USER: intifadah
       POSTGRES_PASSWORD: v1d14ry4
     volumes:
       - postgres_data:/var/lib/postgresql/data/
