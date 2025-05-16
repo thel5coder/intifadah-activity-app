@@ -18,3 +18,5 @@ intifadahactivity/.env
     # Package distribution
 *.egg
 *.whl
+
+.env

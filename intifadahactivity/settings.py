@@ -99,13 +99,13 @@ PWA_APP_START_URL = '/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {
-        'src': 'static/pwa/android.png',
+        'src': '/static/pwa/android.png',
         'sizes': '160x160'
     }
 ]
 PWA_APP_ICONS_APPLE = [
     {
-        'src': 'static/pwa/ios.png',
+        'src': '/static/pwa/ios.png',
         'sizes': '160x160'
     }
 ]
