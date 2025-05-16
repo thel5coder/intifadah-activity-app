@@ -22,7 +22,7 @@ services:
       - app-network
 
   db:
-    image: postgres:14
+    image: postgres:17
     environment:
       POSTGRES_DB: intifadah-dev
       POSTGRES_USER: postgres
