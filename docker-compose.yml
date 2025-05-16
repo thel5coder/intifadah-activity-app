@@ -37,6 +37,7 @@ volumes:
   static_volume:
   media_volume:
   postgres_data:
+  static:
 
 networks:
   app-network:
