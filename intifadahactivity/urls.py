@@ -24,12 +24,13 @@ from managementactivity.templates.user import view as user
 from managementactivity.templates.manajerialactivity import view as activity
 from django.conf.urls.static import static
 from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', include('pwa.urls')),
-    path('', view.login_view, name='login'),
+    path('login/', view.login_view, name='login'),
     path('logout/', view.logout_view, name='logout'),
     path('dashboard/', dashboard.dashboard, name='dashboard'),
     path('activity-type/', activitytype.index, name='activitytype'),
@@ -47,3 +48,4 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

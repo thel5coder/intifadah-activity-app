@@ -7003,7 +7003,7 @@ file:
     terms:
       - document
       - new
-      - page
+      - app
       - pdf
       - resume
   styles:
@@ -7023,7 +7023,7 @@ file-alt:
       - file-text
       - invoice
       - new
-      - page
+      - app
       - pdf
   styles:
     - solid
@@ -7061,7 +7061,7 @@ file-audio:
       - document
       - mp3
       - music
-      - page
+      - app
       - play
       - sound
   styles:
@@ -7342,7 +7342,7 @@ file-upload:
     terms:
       - document
       - import
-      - page
+      - app
       - save
   styles:
     - solid
@@ -7376,7 +7376,7 @@ file-word:
     terms:
       - document
       - edit
-      - page
+      - app
       - text
       - writing
   styles:
