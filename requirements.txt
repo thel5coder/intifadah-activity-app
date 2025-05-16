@@ -1,7 +1,6 @@
 asgiref==3.8.1
 Django==5.2
 django-pwa==2.0.1
-gunicorn==23.0.0
 packaging==25.0
 pillow==11.2.1
 psycopg2-binary==2.9.10
