@@ -9,6 +9,8 @@ venv/
 myenv/
 env/
 
+.env
+
 .idea/
 .DS_store
 
@@ -18,5 +20,3 @@ intifadahactivity/.env
     # Package distribution
 *.egg
 *.whl
-
-.env
