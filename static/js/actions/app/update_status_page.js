@@ -9,10 +9,10 @@ $(document).ready(function () {
                 let selectedValue = $(this).val();
                 if (selectedValue === "0") {
                     textRejectedReason.show()
-                    score.show()
+                    score.hide()
                 } else {
                     textRejectedReason.hide()
-                    score.hide()
+                    score.show()
                 }
             });
 

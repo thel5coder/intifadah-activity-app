@@ -17,7 +17,7 @@ Including another URLconf
 
 from django.shortcuts import redirect
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 from django.shortcuts import redirect
 from managementactivity.templates.login import view
 from managementactivity.templates.dashboard import view as dashboard
@@ -34,7 +34,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', view.login_view, name='login'),
     path('logout/', view.logout_view, name='logout'),
- 
+
     path('dashboard/', dashboard.dashboard, name='dashboard'),
     path('activity-type/', activitytype.index, name='activitytype'),
     path('activity-type/add', activitytype.create, name='activitytype-add'),
@@ -44,6 +44,7 @@ urlpatterns = [
     path('activity/all', activity.all_activity, name='activity-all'),
     path('activity/create', activity.create, name='activity-create'),
     path('activity/statistics', activity.activity_statistics, name='activity-statistics'),
+    path('activity/<int:activity_status>', activity.activity_by_status, name='activity-by-status'),
 
     path("activity/status/<int:activity_id>", activity.update_status, name="activity-update-status"),
     path("activity/update/<int:activity_id>", activity.update, name='activity-update'),

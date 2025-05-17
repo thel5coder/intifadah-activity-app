@@ -107,7 +107,11 @@ def update_status(request, activity_id):
         is_can_update_status = True
 
     if request.method == 'POST' and is_can_update_status:
-        activity.ActivityStatus = request.POST['activityStatus']
+        status =ActivityStatus.REJECTED
+        if request.POST['activityScore'] >0:
+            status = ActivityStatus.APPROVED
+
+        activity.ActivityStatus = status
         activity.ActivityScore = request.POST['activityScore']
         activity.save()
         return redirect('activity-all')
@@ -119,3 +123,13 @@ def update_status(request, activity_id):
 
 def activity_statistics(request):
     return render(request,'manajerialactivity/statistics.html')
+
+def activity_by_status(request,activity_status):
+    activities = ManagerialActivity.objects.filter(ManagerialUser_id=request.user.id).filter(ActivityStatus=activity_status)
+    for activity in activities:
+        activity.status = {'value': ActivityStatus.get_key_text(activity.ActivityStatus),
+                           'badge': ActivityStatus.get_badge_status(activity.ActivityStatus)}
+        formatted_time = datetime.fromtimestamp(activity.ActivityDateTime).strftime('%d-%m-%Y %H:%M')
+        activity.ActivityDateTime = formatted_time
+
+    return render(request, 'manajerialactivity/activity_by_status.html', {'activities': activities})
