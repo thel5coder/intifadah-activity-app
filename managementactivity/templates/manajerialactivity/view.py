@@ -108,10 +108,11 @@ def update_status(request, activity_id):
 
     if request.method == 'POST' and is_can_update_status:
         status =ActivityStatus.REJECTED
-        if request.POST['activityScore'] >0:
+        if request.POST['activityScore'] != 0:
             status = ActivityStatus.APPROVED
 
         activity.ActivityStatus = status
+        activity.RejectedReason = ""
         activity.ActivityScore = request.POST['activityScore']
         activity.save()
         return redirect('activity-all')

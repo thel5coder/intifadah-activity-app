@@ -27,7 +27,7 @@
                                                 = {{ activity.ActivityDetail }}</p>
                                             <p class="card-text text-muted">Hasil
                                                 = {{ activity.ActivityResult }}</p>
-                                        {% if perms.managementactivity.update_activity_status and user.id != activity.ManagerialUser_id %}
+                                        {% if perms.managementactivity.update_activity_status and user.id != activity.ManagerialUser_id and activity.ActivityStatus == 2 %}
                                          <a href="{% url 'activity-update-status' activity.id %}"
                                                class="btn btn-secondary">Beri Penilaian</a>
                                         {% endif %}
