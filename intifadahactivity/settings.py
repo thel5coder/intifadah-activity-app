@@ -9,6 +9,10 @@ SECRET_KEY = 'django-insecure-+@8$$1m$(z3(9#_bon_-j@5-f(ua(_4lcw(h%z0y^-pn)@rp11
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://manajer.intifadhah.com'
+]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -93,9 +97,9 @@ PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js'
 PWA_APP_NAME = 'Intifadah Manajerial'
 PWA_APP_DESCRIPTION = "Jurnal Kegiatan Manajerial Intifadah"
 PWA_APP_DISPLAY = 'standalone'
-PWA_APP_SCOPE = '/'
+PWA_APP_SCOPE = '/login/'
 PWA_APP_ORIENTATION = 'portrait'
-PWA_APP_START_URL = '/'
+PWA_APP_START_URL = '/login/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {

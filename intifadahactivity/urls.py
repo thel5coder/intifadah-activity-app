@@ -15,8 +15,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.shortcuts import redirect
 from django.contrib import admin
 from django.urls import path,include
+from django.shortcuts import redirect
 from managementactivity.templates.login import view
 from managementactivity.templates.dashboard import view as dashboard
 from managementactivity.templates.activitytype import view as activitytype
@@ -27,11 +29,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-
+    path('', lambda request: redirect('login'), name='redirect-root'),
     path('', include('pwa.urls')),
+    path('admin/', admin.site.urls),
     path('login/', view.login_view, name='login'),
     path('logout/', view.logout_view, name='logout'),
+ 
     path('dashboard/', dashboard.dashboard, name='dashboard'),
     path('activity-type/', activitytype.index, name='activitytype'),
     path('activity-type/add', activitytype.create, name='activitytype-add'),
