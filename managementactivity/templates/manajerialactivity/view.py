@@ -147,7 +147,7 @@ def update_status(request, activity_id):
             error["is_error"] = False
             error["message"] = ""
 
-        return redirect(reverse('activity-list'), {'error': error})
+        return redirect(reverse('activity-need-approval'), {'error': error})
 
     formatted_time = datetime.fromtimestamp(activity.ActivityDateTime).strftime('%d-%m-%Y %H:%M')
     activity.ActivityDateTime = formatted_time
