@@ -44,6 +44,8 @@ urlpatterns = [
     path('activity/all', activity.all_activity, name='activity-all'),
     path('activity/create', activity.create, name='activity-create'),
     path('activity/statistics', activity.activity_statistics, name='activity-statistics'),
+    path('activity/activity-type', activity.activity_type_list, name='activity-type-list'),
+    path('activity/need-approval',activity.activity_need_approval,name='activity-need-approval'),
     path('activity/<int:activity_status>', activity.activity_by_status, name='activity-by-status'),
 
     path("activity/status/<int:activity_id>", activity.update_status, name="activity-update-status"),
