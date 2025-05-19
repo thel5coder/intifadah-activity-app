@@ -6,87 +6,81 @@
             <div class="col-xl-3 col-md-6 mb-4">
                 <a href="{% url 'activity-list' %}">
                     <div class="card border-left-primary shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Kegiatan Saya
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Kegiatan Saya
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count_activity_today }}</div>
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count_activity_today }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <a href="{% url 'activity-list' %}">
-                                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                </a>
+                                <div class="col-auto">
+                                    <a href="{% url 'activity-list' %}">
+                                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </a>
             </div>
             <div class="col-xl-3 col-md-6 mb-4">
-                <a href="{% url 'activity-by-status' approved %}">
+                <a href="{% url 'activity-list' %}?status=1&exclude=0">
                     <div class="card border-left-info shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Kegiatan Di Setujui
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Kegiatan Di Setujui
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count_approved }}</div>
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count_approved }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <a href="{% url 'activity-by-status' approved %}">
+                                <div class="col-auto">
                                     <i class="fas fa-calendar-check fa-2x text-gray-300"></i>
-                                </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </a>
             </div>
 
             <div class="col-xl-3 col-md-6 mb-4">
-                <a href="{% url 'activity-by-status' waiting_approval %}">
+                <a href="{% url 'activity-list' %}?status=2&exclude=0">
                     <div class="card border-left-secondary shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Kegiatan Menunggu Persetujuan
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Kegiatan Menunggu Persetujuan
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count_waiting_approval }}</div>
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count_waiting_approval }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <a href="{% url 'activity-by-status' waiting_approval %}">
+                                <div class="col-auto">
                                     <i class="fas fa-clock fa-2x text-gray-300"></i>
-                                </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </a>
             </div>
 
             <div class="col-xl-3 col-md-6 mb-4">
-                <a href="{% url 'activity-by-status' rejected %}">
+                <a href="{% url 'activity-need-approval' %}">
                     <div class="card border-left-danger shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Kegiatan Di Tolak
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Kegiatan Butuh Persetujuan
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count_needs_approval }}</div>
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count_rejected }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <a href="{% url 'activity-by-status' rejected %}">
-                                    <i class="fas fa-archive fa-2x text-gray-300"></i>
-                                </a>
+                                <div class="col-auto">
+                                     <i class="fas fa-archive fa-2x text-gray-300"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </a>
             </div>
         </div>
