@@ -1,0 +1,30 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="card shadow mb-3 mt-3">
+                        <div class="card-header py-3">Tambah Setting</div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <input type="text" class="form-control"
+                                       placeholder="Masukkan nama key tanpa spasi contoh cth=income_bulanan">
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="index.html" class="btn btn-primary float-left">
+                                Batal
+                            </a>
+                            <button type="submit" class="btn btn-primary float-right">
+                                Simpan
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -18,7 +18,7 @@
                                         <select class="form-control" id="exampleFormControlSelect1"
                                                 name="activityType" disabled>
                                             {% for activityType in activityTypes %}
-                                                <option value="{{ activityType.id }}">{{ activityType.name }}</option>
+                                                <option value="{{ activityType.id }}" {% if activityType.id == activity.ActivityType_id %} selected {% endif %}>{{ activityType.name }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>

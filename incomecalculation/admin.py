@@ -1,3 +1,4 @@
 from django.contrib import admin
+from managementactivity.models import MasterIncome
 
-# Register your models here.
+admin.site.register(MasterIncome)
