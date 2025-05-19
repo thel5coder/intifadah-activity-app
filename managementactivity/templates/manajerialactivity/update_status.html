@@ -1,32 +1,12 @@
 {% extends 'base/base.html' %}
 {% load static %}
-{% block pagejs %}
-    <script type="application/javascript">
-    $(document).ready(function () {
-
-            let textRejectedReason = $('#rejectedReason')
-            textRejectedReason.hide()
-
-
-            $('#activityStatus').change(function () {
-                let selectedValue = $(this).val();
-                if (selectedValue === "0") {
-                    textRejectedReason.show()
-                } else {
-                    textRejectedReason.hide()
-                }
-            });
-
-        });
-    </script>
-{% endblock %}
 {% block content %}
     <div class="container-fluid mb-5 mt-5">
         <div class="row">
             <div class="col">
                 <form method="POST" class="form-validate">
-                {% csrf_token %}
-                    <div class="card mb-1 border-0">
+                    {% csrf_token %}
+                    <div class="card mb-4">
                         <div class="card-header py-3">Ubah Status</div>
                         <div class="card-body">
                             <div class="row">
@@ -63,24 +43,11 @@
                                     <div class="form-group">
                                         <img src="{{ activity.ActivityImage.url }}" width="286" height="180">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="exampleFormControlTextarea1">Status</label>
-                                        <select class="form-control" id="activityStatus"
-                                                name="activityStatus" required>
-                                            <option value="">Pilih Status</option>
-                                            <option value=0>Tolak</option>
-                                            <option value=1>Setujui</option>
-                                        </select>
+                                    <div class="form-group" id="activityScoreDiv">
+                                        <label for="activityScoreTextArea">Skor</label>
+                                        <input type="text" class="form-control" id="activityScore" name="activityScore"
+                                               placeholder="Masukkan skor 1 sampai 5"/>
                                     </div>
-                                    <div class="form-group" id="rejectedReason">
-                                        <label for="exampleFormControlTextarea1">Alasan Di Tolak</label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1"
-                                                  rows="3" name="rejectedReason"></textarea>
-                                    </div>
-                                <div class="form-group" id="activityScoreDiv">
-                                    <label for="activityScoreTextArea">Skor</label>
-                                    <input type="text" class="form-control" id="activityScore" name="activityScore" placeholder="Masukkan skor 1 sampai 5"/>
-                                </div>
                                 </div>
                             </div>
                         </div>

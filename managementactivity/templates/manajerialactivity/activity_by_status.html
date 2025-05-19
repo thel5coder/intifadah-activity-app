@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col">
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">Kegiatan Saya</div>
+                    <div class="card-header py-3">Semua Kegiatan</div>
                     <div class="card-body">
                         <div class="row">
                             {% for activity in activities %}
@@ -20,20 +20,17 @@
                                             </h5>
 
                                             <h6 class="card-subtitle mb-2 text-muted">{{ activity.ActivityDateTime }}</h6>
+                                           {% if user.id != activity.ManagerialUser_id %}
+                                                <p class="card-text text-muted">Pekerja = {{ activity.userManagerial.first_name }}</p>
+                                            {% endif %}
                                             <p class="card-text text-muted">Kegiatan
                                                 = {{ activity.ActivityDetail }}</p>
                                             <p class="card-text text-muted">Hasil
                                                 = {{ activity.ActivityResult }}</p>
-                                            {% if user.id == activity.ManagerialUser_id %}
-                                                <a href="{% url 'activity-update' activity.id %}"
-                                                   class="btn btn-secondary">Ubah</a>
-                                                <a href="{% url 'activity-delete' activity.id %}"
-                                                   class="btn btn-warning">Hapus</a>
-                                            {% endif %}
-                                            {% if perms.managementactivity.update_activity_status and user.id != activity.ManagerialUser_id and activity.ActivityType_id in approval_ids %}
-                                                <a href="{% url 'activity-update-status' activity.id %}"
-                                                   class="btn btn-secondary">Beri Penilaian</a>
-                                            {% endif %}
+                                        {% if perms.managementactivity.update_activity_status and user.id != activity.ManagerialUser_id %}
+                                         <a href="{% url 'activity-update-status' activity.id %}"
+                                               class="btn btn-secondary">Beri Penilaian</a>
+                                        {% endif %}
                                         </div>
                                     </div>
                                 </div>

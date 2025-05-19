@@ -21,13 +21,13 @@
 
                                             <h6 class="card-subtitle mb-2 text-muted">{{ activity.ActivityDateTime }}</h6>
                                            {% if user.id != activity.ManagerialUser_id %}
-                                                <p class="card-text text-muted">Manajer = {{ activity.userManagerial.first_name }}</p>
+                                                <p class="card-text text-muted">Pekerja = {{ activity.userManagerial.first_name }}</p>
                                             {% endif %}
                                             <p class="card-text text-muted">Kegiatan
                                                 = {{ activity.ActivityDetail }}</p>
                                             <p class="card-text text-muted">Hasil
                                                 = {{ activity.ActivityResult }}</p>
-                                        {% if perms.managementactivity.update_activity_status %}
+                                        {% if perms.managementactivity.update_activity_status and user.id != activity.ManagerialUser_id and activity.ActivityStatus == 2 %}
                                          <a href="{% url 'activity-update-status' activity.id %}"
                                                class="btn btn-secondary">Beri Penilaian</a>
                                         {% endif %}
