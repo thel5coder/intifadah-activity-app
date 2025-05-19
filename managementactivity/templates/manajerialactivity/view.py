@@ -36,13 +36,12 @@ def index(request):
     for approval in activity_approvals:
         approval_ids.append(approval.ActivityTypeId_id)
 
-    print(approval_ids)
-
     for activity in activities:
         activity.status = {'value': ActivityStatus.get_key_text(activity.ActivityStatus),
                            'badge': ActivityStatus.get_badge_status(activity.ActivityStatus)}
         formatted_time = datetime.fromtimestamp(activity.ActivityDateTime).strftime('%d-%m-%Y %H:%M')
         activity.ActivityDateTime = formatted_time
+        activity.userManagerial = User.objects.filter(id=activity.ManagerialUser_id).first()
 
     return render(request, 'manajerialactivity/list.html', {'activities': activities,'approval_ids': approval_ids})
 
@@ -204,5 +203,11 @@ def activity_need_approval(request):
     activities = ManagerialActivity.objects.with_month('ActivityDateTime').filter(
         month=DateTimeHelper.get_current_local_time().month).filter(ActivityType_id__in=activity_type_ids).filter(
         ActivityStatus=ActivityStatus.WAITING_APPROVAL).exclude(ManagerialUser_id=request.user.id)
+    for activity in activities:
+        activity.status = {'value': ActivityStatus.get_key_text(activity.ActivityStatus),
+                           'badge': ActivityStatus.get_badge_status(activity.ActivityStatus)}
+        formatted_time = datetime.fromtimestamp(activity.ActivityDateTime).strftime('%d-%m-%Y %H:%M')
+        activity.ActivityDateTime = formatted_time
+        activity.userManagerial = User.objects.filter(id=activity.ManagerialUser_id).first()
 
     return render(request, 'manajerialactivity/activity_by_status.html', {'activities': activities, 'approval': True})

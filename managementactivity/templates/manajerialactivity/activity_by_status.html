@@ -21,7 +21,7 @@
 
                                             <h6 class="card-subtitle mb-2 text-muted">{{ activity.ActivityDateTime }}</h6>
                                            {% if user.id != activity.ManagerialUser_id %}
-                                                <p class="card-text text-muted">Pekerja = {{ activity.userManagerial.first_name }}</p>
+                                                <p class="card-text text-muted">Pelaksana = {{ activity.userManagerial.first_name }}</p>
                                             {% endif %}
                                             <p class="card-text text-muted">Kegiatan
                                                 = {{ activity.ActivityDetail }}</p>
