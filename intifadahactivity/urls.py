@@ -50,7 +50,9 @@ urlpatterns = [
 
     path("activity/status/<int:activity_id>", activity.update_status, name="activity-update-status"),
     path("activity/update/<int:activity_id>", activity.update, name='activity-update'),
-    path("activity/delete/<int:activity_id>", activity.delete, name='activity-delete')
+    path("activity/delete/<int:activity_id>", activity.delete, name='activity-delete'),
+
+    path('income/',include('incomecalculation.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

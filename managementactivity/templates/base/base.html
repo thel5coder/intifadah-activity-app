@@ -216,12 +216,12 @@
 <script>
     $('#activityDatePicker').datetimepicker({
         uiLibrary: 'bootstrap4',
-        modal: true,
-        footer: true,
+        modal: true, footer: true,
         format: 'dd/mm/yyyy HH:MM:SS'
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{% static 'js/base.js' %}"></script>
 {% block pagejs %}
 {% endblock %}
 </body>

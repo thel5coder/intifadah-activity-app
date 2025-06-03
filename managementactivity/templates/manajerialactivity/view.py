@@ -101,7 +101,7 @@ def update(request, activity_id):
         if activityType.id == activity.ActivityType_id:
             activity.selected = 'selected'
 
-    formatted_time = datetime.fromtimestamp(activity.ActivityDateTime).strftime('%d-%m-%Y %H:%M')
+    formatted_time = datetime.fromtimestamp(activity.ActivityDateTime).strftime('%d/%m/%Y %H:%M')
     activity.ActivityDateTime = formatted_time
     return render(request, 'manajerialactivity/update.html', {'activity': activity, 'activityTypes': activityTypes})
 

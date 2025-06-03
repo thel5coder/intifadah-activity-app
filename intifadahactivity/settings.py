@@ -22,7 +22,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pwa',
     'managementactivity',
-    'incomecalculation'
+    'incomecalculation',
+    'posmaster'
 ]
 
 MIDDLEWARE = [
