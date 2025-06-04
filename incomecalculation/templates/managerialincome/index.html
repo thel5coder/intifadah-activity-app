@@ -1,0 +1,52 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card shadow mb-4 mt-4">
+                    <div class="card-header py-3">
+                        <div class="row">
+                            <div class="col">
+                                <form method="post" class="form-inline form-validate">
+                                    {% csrf_token %}
+                                        <select class="form-control mr-2" id="month" name="month">
+                                            <option value="0">Pilih Bulan</option>
+                                            {% for month in list_of_months %}
+                                            <option value="{{ month.Month }}">{{ month.Month }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    <button type="submit" class="btn btn-primary">Pilih</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Income bulan {% if income_this_month %}
+                            {{ income_this_month }} {% endif %}</h5>
+                        <table class="table table-bordered">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>Nama</th>
+                                <th>Total Score</th>
+                                <th>Index</th>
+                                <th>Income</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for income in managerial_incomes %}
+                                <tr>
+                                    <td>{{ income.user_managerial.first_name }} {{ income.user.user_managerial.last_name }}</td>
+                                    <td>{{ income.total_score }}</td>
+                                    <td>{{ income.index }}</td>
+                                    <td>{{ income.variable_income }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
