@@ -24,6 +24,7 @@ from managementactivity.templates.dashboard import view as dashboard
 from managementactivity.templates.activitytype import view as activitytype
 from managementactivity.templates.user import view as user
 from managementactivity.templates.manajerialactivity import view as activity
+from incomecalculation.templates.managerialincome import view as managerial_income
 from django.conf.urls.static import static
 from django.conf import settings
 from django.conf.urls.static import static
@@ -40,17 +41,19 @@ urlpatterns = [
     path('activity-type/add', activitytype.create, name='activitytype-add'),
     path('user/', user.create, name='user-create'),
 
+    path("income/", managerial_income.index, name='managerial-income-index'),
+
     path('activity/', activity.index, name='activity-list'),
     path('activity/all', activity.all_activity, name='activity-all'),
     path('activity/create', activity.create, name='activity-create'),
     path('activity/statistics', activity.activity_statistics, name='activity-statistics'),
     path('activity/activity-type', activity.activity_type_list, name='activity-type-list'),
-    path('activity/need-approval',activity.activity_need_approval,name='activity-need-approval'),
+    path('activity/need-approval', activity.activity_need_approval, name='activity-need-approval'),
     path('activity/<int:activity_status>', activity.activity_by_status, name='activity-by-status'),
 
     path("activity/status/<int:activity_id>", activity.update_status, name="activity-update-status"),
     path("activity/update/<int:activity_id>", activity.update, name='activity-update'),
-    path("activity/delete/<int:activity_id>", activity.delete, name='activity-delete')
+    path("activity/delete/<int:activity_id>", activity.delete, name='activity-delete'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
