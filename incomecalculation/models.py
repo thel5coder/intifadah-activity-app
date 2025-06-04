@@ -1,5 +1,8 @@
 from django.db import models
 
+from managementactivity.models import Users
+
+
 # Create your models here.
 
 class TimeStampModel(models.Model):

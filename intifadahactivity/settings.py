@@ -23,7 +23,8 @@ INSTALLED_APPS = [
     'pwa',
     'managementactivity',
     'incomecalculation',
-    'posmaster'
+    'posmaster',
+    'possetting',
 ]
 
 MIDDLEWARE = [

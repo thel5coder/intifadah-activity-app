@@ -34,3 +34,11 @@ class PaymentMethod(TimeStampModel):
     def __str__(self):
         return self.name
 
+
+class GeneralSettings(TimeStampModel):
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        db_table = 'general_settings'
+        ordering = ('name',)
+        verbose_name_plural = 'general settings'
