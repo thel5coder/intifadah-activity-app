@@ -28,7 +28,7 @@ class IncomeSettings(TimeStampModel):
 
 class ManagerialIncome(TimeStampModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    index = models.DecimalField(decimal_places=0, max_digits=20)
+    index = models.DecimalField(decimal_places=2, max_digits=20)
     total_score = models.DecimalField(decimal_places=0, max_digits=20)
     history_income = models.DecimalField(decimal_places=2, max_digits=20)
     position_income = models.DecimalField(decimal_places=2, max_digits=20)
@@ -56,4 +56,4 @@ class ManagerialFixIncome(TimeStampModel):
         verbose_name_plural = 'Managerial Fixed Incomes'
 
     def __str__(self):
-        return self.history_income_percentage
+        return f"{self.user.first_name} {self.history_income_percentage} {self.position_income_percentage}"
