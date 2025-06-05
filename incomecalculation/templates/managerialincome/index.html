@@ -25,48 +25,52 @@
                     <div class="card-body">
                         <h5 class="card-title">Income bulan {% if income_this_month %}
                             {{ income_this_month }} {% endif %}</h5>
-                        <table class="table table-bordered">
-                            <thead class="thead-light">
-                            <tr>
-                                <th>Nama</th>
-                                <th>History Income</th>
-                                <th>Position Income</th>
-                                <th>Total Fix Income</th>
-                                <th>Total Score</th>
-                                <th>Index</th>
-                                <th>Variable Income</th>
-                                <th>Total Income</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for income in managerial_incomes %}
-                                <tr>
-                                    <td>{{ income.user_managerial.first_name }} {{ income.user.user_managerial.last_name }}</td>
-                                    <td>Rp. {{ income.history_income | intcomma }}</td>
-                                    <td>Rp. {{ income.position_income | intcomma }}</td>
-                                    <td>Rp. {{ income.fix_income | intcomma }}</td>
-                                    {% if perms.incomecalculation.view_managerialincome and perms.incomecalculation.change_managerialincome %}
-                                        <td>{{ income.total_score }}</td>
-                                        <td>{{ income.index }} %</td>
-                                    {% endif %}
-                                    <td>Rp. {{ income.variable_income | intcomma }}</td>
-                                    <td>Rp. {{ income.total_income | intcomma }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>Nama</th>
-                                <th>History Income</th>
-                                <th>Position Income</th>
-                                <th>Total Fix Income</th>
-                                <th>{{ total_score }}</th>
-                                <th>{{ total_index }}</th>
-                                <th>Variable Income</th>
-                                <th>Total Income</th>
-                            </tr>
-                            </tfoot>
-                        </table>
+                        <div class="row">
+                            <div class="col">
+                                <table class="table table-bordered table-responsive-sm table-responsive-sm">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>History Income</th>
+                                        <th>Position Income</th>
+                                        <th>Total Fix Income</th>
+                                        <th>Total Score</th>
+                                        <th>Index</th>
+                                        <th>Variable Income</th>
+                                        <th>Total Income</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for income in managerial_incomes %}
+                                        <tr>
+                                            <td>{{ income.user_managerial.first_name }} {{ income.user.user_managerial.last_name }}</td>
+                                            <td>Rp. {{ income.history_income | intcomma }}</td>
+                                            <td>Rp. {{ income.position_income | intcomma }}</td>
+                                            <td>Rp. {{ income.fix_income | intcomma }}</td>
+                                            {% if perms.incomecalculation.view_managerialincome and perms.incomecalculation.change_managerialincome %}
+                                                <td>{{ income.total_score }}</td>
+                                                <td>{{ income.index }} %</td>
+                                            {% endif %}
+                                            <td>Rp. {{ income.variable_income | intcomma }}</td>
+                                            <td>Rp. {{ income.total_income | intcomma }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>History Income</th>
+                                        <th>Position Income</th>
+                                        <th>Total Fix Income</th>
+                                        <th>{{ total_score }}</th>
+                                        <th>{{ total_index }}</th>
+                                        <th>Variable Income</th>
+                                        <th>Total Income</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
