@@ -42,13 +42,12 @@ def index(request):
 
             # calculate and save
             total_variable_income = (master_income.VariableIncome / 100) * master_income.MonthlyIncome
-            print(total_variable_income)
             for this_month in this_months:
                 index_score = round(this_month['total_score'] / total_all_score * 100, 2)
                 variable_income = (index_score / 100) * total_variable_income
                 managerial_incomes.append(ManagerialIncome(index=index_score, total_score=this_month['total_score'],
                                                            user_id=this_month['ManagerialUser_id'],
-                                                           variable_income=variable_income, history_income=0,
+                                                           variable_income=round(variable_income, 0), history_income=0,
                                                            position_income=0, fix_income=0, total_income=0,
                                                            month=month))
             ManagerialIncome.objects.bulk_create(managerial_incomes)

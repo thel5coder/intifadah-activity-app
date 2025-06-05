@@ -44,3 +44,16 @@ class ManagerialIncome(TimeStampModel):
 
     def __str__(self):
         return self.index
+
+class ManagerialFixIncome(TimeStampModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    history_income_percentage = models.DecimalField(decimal_places=2, max_digits=20)
+    position_income_percentage = models.DecimalField(decimal_places=2, max_digits=20)
+
+    class Meta:
+        db_table = 'managerial_fix_incomes'
+        ordering = ('id',)
+        verbose_name_plural = 'Managerial Fixed Incomes'
+
+    def __str__(self):
+        return self.history_income_percentage
