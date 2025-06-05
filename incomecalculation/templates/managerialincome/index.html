@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% load static %}
+{% load humanize %}
 {% block content %}
     <div class="container-fluid">
         <div class="row">
@@ -39,7 +40,7 @@
                                     <td>{{ income.user_managerial.first_name }} {{ income.user.user_managerial.last_name }}</td>
                                     <td>{{ income.total_score }}</td>
                                     <td>{{ income.index }}</td>
-                                    <td>{{ income.variable_income }}</td>
+                                    <td>Rp. {{ income.variable_income | intcomma }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

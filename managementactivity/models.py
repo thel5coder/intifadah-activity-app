@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from django.db.models import F, Func, ExpressionWrapper
 from django.db.models.functions import ExtractMonth
+from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.

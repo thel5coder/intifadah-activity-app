@@ -22,7 +22,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pwa',
     'managementactivity',
-    'incomecalculation'
+    'incomecalculation',
+    'django.contrib.humanize'
 ]
 
 MIDDLEWARE = [
@@ -76,6 +77,7 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Asia/Jakarta'
 USE_I18N = True
 USE_TZ = True
+USE_L10N = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
