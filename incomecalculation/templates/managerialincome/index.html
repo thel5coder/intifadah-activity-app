@@ -45,8 +45,10 @@
                                     <td>Rp. {{ income.history_income | intcomma }}</td>
                                     <td>Rp. {{ income.position_income | intcomma }}</td>
                                     <td>Rp. {{ income.fix_income | intcomma }}</td>
-                                    <td>{{ income.total_score }}</td>
-                                    <td>{{ income.index }} %</td>
+                                    {% if perms.incomecalculation.view_managerialincome and perms.incomecalculation.change_managerialincome %}
+                                        <td>{{ income.total_score }}</td>
+                                        <td>{{ income.index }} %</td>
+                                    {% endif %}
                                     <td>Rp. {{ income.variable_income | intcomma }}</td>
                                     <td>Rp. {{ income.total_income | intcomma }}</td>
                                 </tr>
