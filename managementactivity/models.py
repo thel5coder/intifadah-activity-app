@@ -79,7 +79,7 @@ class EpochToDateTime(Func):
 
 
 class EpochQuerySet(models.QuerySet):
-    def with_month(self,field):
+    def with_month(self, field):
         return self.annotate(
             datetime_field=ExpressionWrapper(
                 EpochToDateTime(F(field)),
