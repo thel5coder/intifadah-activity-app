@@ -4,15 +4,19 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Sum
 from django.contrib.auth.models import User
+from decimal import Decimal
 
 
 def index(request):
     total_all_score = 0
     managerial_incomes = []
-    month = request.POST['month']
-    master_income = MasterIncome.objects.get(Month=month)
+    master_income = MasterIncome
+    month = 0
+    total_index = 0
 
     if request.method == "POST":
+        month = request.POST['month']
+        master_income = MasterIncome.objects.get(Month=month)
         if month == "0":
             list_of_months = MasterIncome.objects.all()
             return render(request, 'managerialincome/index.html', {'list_of_months': list_of_months})
@@ -20,10 +24,15 @@ def index(request):
         instances = ManagerialIncome.objects.all().filter(month=month)
         if len(instances) > 0:
             for instance in instances:
+                total_all_score += instance.total_score
+                total_index += instance.index
                 managerial_incomes.append(ManagerialIncome(index=instance.index, total_score=instance.total_score,
                                                            user_id=instance.user_id,
-                                                           variable_income=instance.variable_income, history_income=0,
-                                                           position_income=0, fix_income=0, total_income=0,
+                                                           variable_income=instance.variable_income,
+                                                           history_income=instance.history_income,
+                                                           position_income=instance.position_income,
+                                                           fix_income=instance.fix_income,
+                                                           total_income=instance.total_income,
                                                            month=month))
             for managerial_income in managerial_incomes:
                 managerial_income.user_managerial = User.objects.get(id=managerial_income.user_id)
@@ -37,24 +46,24 @@ def index(request):
 
             for this_month in this_months:
                 total_all_score += this_month['total_score']
-                print(this_month)
 
             # calculate and save
             total_variable_income = (master_income.VariableIncome / 100) * master_income.MonthlyIncome
-            history_income = (master_income.HistoryIncome / 100) * master_income.MonthlyIncome
-            position_income = (master_income.PositionIncome / 100) * master_income.MonthlyIncome
+            print(Decimal(str((master_income.HistoryIncome / 100))))
+            history_income = Decimal(str((master_income.HistoryIncome / 100))) * master_income.MonthlyIncome
+            position_income = Decimal(str((master_income.PositionIncome / 100))) * master_income.MonthlyIncome
             for this_month in this_months:
                 # variable income calculation
                 index_score = round(this_month['total_score'] / total_all_score * 100, 2)
-                variable_income = (index_score / 100) * total_variable_income
+                variable_income = round((index_score / 100) * total_variable_income, 2)
+                total_index += index_score
                 # end variable income calculation
 
                 # fix income calculation
-                fix_income = MasterIncome.objects.get(user_id=this_month['ManagerialUser_id'])
-                managerial_history_income = round((fix_income.history_income_percentage / 100) * history_income, 0)
-                managerial_position_income = round((fix_income.position_income_percentage / 100) * position_income,
-                                                   0)
-                total_fix_income = managerial_position_income + managerial_history_income
+                fix_income = ManagerialFixIncome.objects.get(user_id=this_month['ManagerialUser_id'])
+                managerial_history_income = round((fix_income.history_income_percentage / 100) * history_income, 2)
+                managerial_position_income = round((fix_income.position_income_percentage / 100) * position_income)
+                total_fix_income = round(managerial_position_income + managerial_history_income, 2)
                 # end fix income calculation
 
                 total_income = total_fix_income + managerial_history_income + managerial_position_income
@@ -68,11 +77,12 @@ def index(request):
             ManagerialIncome.objects.bulk_create(managerial_incomes)
 
             for managerial_income in managerial_incomes:
-                fix_income = MasterIncome.objects.get(user_id=this_month['ManagerialUser_id'])
+                fix_income = ManagerialFixIncome.objects.get(user_id=this_month['ManagerialUser_id'])
                 managerial_income.user_managerial = User.objects.get(id=managerial_income.user_id)
                 managerial_income.fix_income_var = fix_income
 
     list_of_months = MasterIncome.objects.all()
     return render(request, 'managerialincome/index.html',
                   {'list_of_months': list_of_months, 'total_score': total_all_score,
-                   'managerial_incomes': managerial_incomes, 'master_income': master_income})
+                   'managerial_incomes': managerial_incomes, 'master_income': master_income,
+                   'total_index': total_index})
