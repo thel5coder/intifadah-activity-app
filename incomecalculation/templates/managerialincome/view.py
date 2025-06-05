@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Sum
 from django.contrib.auth.models import User
 from decimal import Decimal
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def index(request):
@@ -60,13 +61,18 @@ def index(request):
                 # end variable income calculation
 
                 # fix income calculation
-                fix_income = ManagerialFixIncome.objects.get(user_id=this_month['ManagerialUser_id'])
-                managerial_history_income = round((fix_income.history_income_percentage / 100) * history_income, 2)
-                managerial_position_income = round((fix_income.position_income_percentage / 100) * position_income)
-                total_fix_income = round(managerial_position_income + managerial_history_income, 2)
+                try:
+                    fix_income = ManagerialFixIncome.objects.get(user_id=this_month['ManagerialUser_id'])
+                    managerial_history_income = round((fix_income.history_income_percentage / 100) * history_income, 2)
+                    managerial_position_income = round((fix_income.position_income_percentage / 100) * position_income)
+                    total_fix_income = round(managerial_position_income + managerial_history_income, 2)
+                except ObjectDoesNotExist:
+                    managerial_history_income = 0
+                    managerial_position_income = 0
+                    total_fix_income = 0
                 # end fix income calculation
 
-                total_income = total_fix_income + managerial_history_income + managerial_position_income
+                total_income = Decimal(str(total_fix_income)) + Decimal(str(variable_income))
                 managerial_incomes.append(ManagerialIncome(index=index_score, total_score=this_month['total_score'],
                                                            user_id=this_month['ManagerialUser_id'],
                                                            variable_income=round(variable_income, 0),
