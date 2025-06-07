@@ -32,7 +32,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Income bulan {% if month %}
                             {{ month }} {% endif %} : {% if master_income.MonthlyIncome %}
-                            <span class="font-weight-bolder">{{ master_income.MonthlyIncome }}</span>{% endif %} </h5>
+                            <span class="font-weight-bolder">Rp. {{ master_income.MonthlyIncome | intcomma}}</span>{% endif %} </h5>
                         <div class="row">
                             <div class="col">
                                 <table class="table table-bordered table-responsive-sm table-responsive-sm">
@@ -49,14 +49,14 @@
                                         <th colspan="2">Jabatan</th>
                                     </tr>
                                     <tr>
-                                        <th style="width: 50px;">{{ master_income.HistoryIncome }}</th>
-                                        <th>{{ master_income.value_history_income }}</th>
-                                        <th style="width: 50px;">{{ master_income.PositionIncome }}</th>
-                                        <th>{{ master_income.value_position_income }}</th>
+                                        <th style="width: 50px;">{{ master_income.HistoryIncome }} %</th>
+                                        <th>Rp. {{ master_income.value_history_income | intcomma }}</th>
+                                        <th style="width: 50px;">{{ master_income.PositionIncome }} %</th>
+                                        <th>Rp. {{ master_income.value_position_income | intcomma }}</th>
                                         <th>Score</th>
-                                        <th>{{ master_income.VariableIncome }}</th>
-                                        <th>{{ master_income.value_variable_income }}</th>
-                                        <th>{{ master_income.MonthlyIncome }}</th>
+                                        <th>{{ master_income.VariableIncome }} %</th>
+                                        <th>Rp. {{ master_income.value_variable_income | intcomma }}</th>
+                                        <th>Rp. {{ master_income.MonthlyIncome | intcomma }}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
