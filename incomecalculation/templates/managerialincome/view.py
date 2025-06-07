@@ -16,6 +16,9 @@ def index(request):
     total_index = 0
     total_percentage_history = 0
     total_percentage_position = 0
+    total_position_value = 0
+    total_history_value = 0
+    total_variable_value = 0
 
     if request.method == "POST":
         month = request.POST['month']
@@ -43,6 +46,9 @@ def index(request):
                     fix_income = ManagerialFixIncome.objects.get(user_id=managerial_income.user_id)
                     total_percentage_history += fix_income.history_income_percentage
                     total_percentage_position += fix_income.position_income_percentage
+                    total_history_value += managerial_income.history_income
+                    total_variable_value += managerial_income.variable_income
+                    total_position_value += managerial_income.position_income
                 except ObjectDoesNotExist:
                     fix_income = None
 
@@ -80,6 +86,7 @@ def index(request):
                 # variable income calculation
                 index_score = round(this_month['total_score'] / total_all_score * 100, 2)
                 variable_income = round((index_score / 100) * total_variable_income, 2)
+                total_variable_value += variable_income
                 total_index += index_score
                 # end variable income calculation
 
@@ -90,6 +97,8 @@ def index(request):
                     total_percentage_position += fix_income.position_income_percentage
                     managerial_history_income = round((fix_income.history_income_percentage / 100) * history_income, 2)
                     managerial_position_income = round((fix_income.position_income_percentage / 100) * position_income)
+                    total_history_value += managerial_history_income
+                    total_position_value += managerial_position_income
                     total_fix_income = round(managerial_position_income + managerial_history_income, 2)
                     exclude_user_ids.append(this_month['ManagerialUser_id'])
                 except ObjectDoesNotExist:
@@ -118,6 +127,8 @@ def index(request):
                 total_fix_income = round(managerial_position_income + managerial_history_income, 2)
 
                 total_income = total_fix_income + variable_income
+                total_history_value += managerial_history_income
+                total_position_value += managerial_position_income
                 managerial_incomes.append(ManagerialIncome(index=0, total_score=0,
                                                            user_id=only_fix_income.user_id,
                                                            variable_income=0,
@@ -139,4 +150,5 @@ def index(request):
                   {'list_of_months': list_of_months, 'total_score': total_all_score,
                    'managerial_incomes': managerial_incomes, 'master_income': master_income,
                    'total_index': total_index, 'month': month, 'total_percentage_history': total_percentage_history,
-                   'total_percentage_position': total_percentage_position})
+                   'total_percentage_position': total_percentage_position, 'total_history_value': total_history_value,
+                   'total_position_value': total_position_value, 'total_variable_value': total_variable_value, })

@@ -32,7 +32,8 @@
                     <div class="card-body">
                         <h5 class="card-title">Income bulan {% if month %}
                             {{ month }} {% endif %} : {% if master_income.MonthlyIncome %}
-                            <span class="font-weight-bolder">Rp. {{ master_income.MonthlyIncome | intcomma}}</span>{% endif %} </h5>
+                            <span class="font-weight-bolder">Rp. {{ master_income.MonthlyIncome | intcomma }}</span>{% endif %}
+                        </h5>
                         <div class="row">
                             <div class="col">
                                 <table class="table table-bordered table-responsive-sm table-responsive-sm">
@@ -62,7 +63,13 @@
                                     <tbody>
                                     {% for income in managerial_incomes %}
                                         <tr>
-                                            <td>{{ income.user_managerial.first_name }} {{ income.user.user_managerial.last_name }}</td>
+                                            <td>
+                                                {% if  income.user_managerial.first_name == 'Admin'%}
+                                                    Bansos
+                                                {% else %}
+                                                    {{ income.user_managerial.first_name }} {{ income.user.user_managerial.last_name }}
+                                                {% endif %}
+                                            </td>
                                             <td>{% if income.fix_income_var %}
                                                 {{ income.fix_income_var.history_income_percentage }} % {% else %} 0
                                                 % {% endif %}</td>
@@ -92,14 +99,17 @@
                                     <tfoot>
                                     <tr>
                                         <th>Nama</th>
-                                        <th>{{ total_percentage_history }}</th>
-                                        <th>History Income</th>
-                                        <th> Jabatan Income</th>
-                                        <th>{{ total_percentage_position }}</th>
+                                        <th>{{ total_percentage_history }} %</th>
+                                        <th>Rp. {% if total_history_value %}
+                                            {{ total_history_value | intcomma }} {% else %} 0 {% endif %}</th>
+                                        <th>{{ total_percentage_position }} %</th>
+                                        <th>Rp. {% if total_position_value %}
+                                            {{ total_position_value | intcomma }} {% else %} 0 {% endif %}</th>
                                         <th>Total Fix Income</th>
                                         <th>{{ total_score }}</th>
                                         <th>{{ total_index }}</th>
-                                        <th>Variable Income</th>
+                                        <th>Rp. {% if total_variable_value %}
+                                            {{ total_variable_value | intcomma }} {% else %} 0 {% endif %}</th>
                                         <th>Total Income</th>
                                     </tr>
                                     </tfoot>
