@@ -49,9 +49,9 @@
                                         <th colspan="2">Jabatan</th>
                                     </tr>
                                     <tr>
-                                        <th>{{ master_income.HistoryIncome }}</th>
+                                        <th style="width: 50px;">{{ master_income.HistoryIncome }}</th>
                                         <th>{{ master_income.value_history_income }}</th>
-                                        <th>{{ master_income.PositionIncome }}</th>
+                                        <th style="width: 50px;">{{ master_income.PositionIncome }}</th>
                                         <th>{{ master_income.value_position_income }}</th>
                                         <th>Score</th>
                                         <th>{{ master_income.VariableIncome }}</th>
@@ -74,7 +74,7 @@
                                             <td>Rp. {{ income.fix_income | intcomma }}</td>
                                             {% if perms.incomecalculation.view_managerialincome and perms.incomecalculation.change_managerialincome %}
                                                 <td>
-                                                    <input type="number" name="score" id="score"
+                                                    <input style="width: 50px;" type="number" name="score" id="score"
                                                            value="{{ income.total_score }}"/>
                                                     <button type="button" class="btn btn-primary btn-sm ml-3"
                                                             id="btnSaveScore-{{ income.id }}">Simpan
@@ -92,10 +92,8 @@
                                     <tfoot>
                                     <tr>
                                         <th>Nama</th>
-                                        <th>Persentase History Income</th>
-                                        <th>History</th>
-                                        <th>Persentase Jabatan Income</th>
-                                        <th>Jabatan</th>
+                                        <th colspan="2">History Income</th>
+                                        <th colspan="2"> Jabatan Income</th>
                                         <th>Total Fix Income</th>
                                         <th>{{ total_score }}</th>
                                         <th>{{ total_index }}</th>
