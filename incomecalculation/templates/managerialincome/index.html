@@ -63,7 +63,13 @@
                                     <tbody>
                                     {% for income in managerial_incomes %}
                                         <tr>
-                                            <td>{{ income.user_managerial.first_name }} {{ income.user.user_managerial.last_name }}</td>
+                                            <td>
+                                                {% if  income.user_managerial.first_name == 'Admin'%}
+                                                    Bansos
+                                                {% else %}
+                                                    {{ income.user_managerial.first_name }} {{ income.user.user_managerial.last_name }}
+                                                {% endif %}
+                                            </td>
                                             <td>{% if income.fix_income_var %}
                                                 {{ income.fix_income_var.history_income_percentage }} % {% else %} 0
                                                 % {% endif %}</td>
