@@ -37,6 +37,22 @@ def index(request):
                                                            month=month))
             for managerial_income in managerial_incomes:
                 managerial_income.user_managerial = User.objects.get(id=managerial_income.user_id)
+                try :
+                    fix_income = ManagerialFixIncome.objects.get(user_id=managerial_income.user_id)
+                except ObjectDoesNotExist:
+                    fix_income = None
+
+                managerial_income.fix_income_var = fix_income
+
+
+            total_variable_income = (master_income.VariableIncome / 100) * master_income.MonthlyIncome
+            print(Decimal(str((master_income.HistoryIncome / 100))))
+            history_income = Decimal(str((master_income.HistoryIncome / 100))) * master_income.MonthlyIncome
+            position_income = Decimal(str((master_income.PositionIncome / 100))) * master_income.MonthlyIncome
+
+            master_income.value_variable_income = total_variable_income
+            master_income.value_history_income = history_income
+            master_income.value_position_income = position_income
 
         else:
             q = ManagerialActivity.objects.with_month('ActivityDateTime').filter(
@@ -88,7 +104,8 @@ def index(request):
                 managerial_income.fix_income_var = fix_income
 
     list_of_months = MasterIncome.objects.all()
+
     return render(request, 'managerialincome/index.html',
                   {'list_of_months': list_of_months, 'total_score': total_all_score,
                    'managerial_incomes': managerial_incomes, 'master_income': master_income,
-                   'total_index': total_index})
+                   'total_index': total_index,'month':month})

@@ -1,6 +1,13 @@
 {% extends 'base/base.html' %}
 {% load static %}
 {% load humanize %}
+{% block pagejs %}
+    <script type="application/javascript">
+        $(document).ready(function () {
+
+        })
+    </script>
+{% endblock %}
 {% block content %}
     <div class="container-fluid">
         <div class="row">
@@ -23,34 +30,60 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Income bulan {% if income_this_month %}
-                            {{ income_this_month }} {% endif %}</h5>
+                        <h5 class="card-title">Income bulan {% if month %}
+                            {{ month }} {% endif %} : {% if master_income.MonthlyIncome %}
+                            <span class="font-weight-bolder">{{ master_income.MonthlyIncome }}</span>{% endif %} </h5>
                         <div class="row">
                             <div class="col">
                                 <table class="table table-bordered table-responsive-sm table-responsive-sm">
                                     <thead class="thead-light">
                                     <tr>
-                                        <th>Nama</th>
-                                        <th>History Income</th>
-                                        <th>Position Income</th>
-                                        <th>Total Fix Income</th>
-                                        <th>Total Score</th>
-                                        <th>Index</th>
-                                        <th>Variable Income</th>
-                                        <th>Total Income</th>
+                                        <th rowspan="3">Nama</th>
+                                        <th colspan="4">Fix Income</th>
+                                        <th rowspan="3">Total Fix Income</th>
+                                        <th rowspan="2" colspan="3">Variable Income</th>
+                                        <th rowspan="2">Total Income</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2">History</th>
+                                        <th colspan="2">Jabatan</th>
+                                    </tr>
+                                    <tr>
+                                        <th>{{ master_income.HistoryIncome }}</th>
+                                        <th>{{ master_income.value_history_income }}</th>
+                                        <th>{{ master_income.PositionIncome }}</th>
+                                        <th>{{ master_income.value_position_income }}</th>
+                                        <th>Score</th>
+                                        <th>{{ master_income.VariableIncome }}</th>
+                                        <th>{{ master_income.value_variable_income }}</th>
+                                        <th>{{ master_income.MonthlyIncome }}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {% for income in managerial_incomes %}
                                         <tr>
                                             <td>{{ income.user_managerial.first_name }} {{ income.user.user_managerial.last_name }}</td>
+                                            <td>{% if income.fix_income_var %}
+                                                {{ income.fix_income_var.history_income_percentage }} % {% else %} 0
+                                                % {% endif %}</td>
                                             <td>Rp. {{ income.history_income | intcomma }}</td>
+                                            <td>{% if income.fix_income_var %}
+                                                {{ income.fix_income_var.position_income_percentage }} % {% else %} 0
+                                                % {% endif %}</td>
                                             <td>Rp. {{ income.position_income | intcomma }}</td>
                                             <td>Rp. {{ income.fix_income | intcomma }}</td>
                                             {% if perms.incomecalculation.view_managerialincome and perms.incomecalculation.change_managerialincome %}
+                                                <td>
+                                                    <input type="number" name="score" id="score"
+                                                           value="{{ income.total_score }}"/>
+                                                    <button type="button" class="btn btn-primary btn-sm ml-3"
+                                                            id="btnSaveScore-{{ income.id }}">Simpan
+                                                    </button>
+                                                </td>
+                                            {% else %}
                                                 <td>{{ income.total_score }}</td>
-                                                <td>{{ income.index }} %</td>
                                             {% endif %}
+                                            <td>{{ income.index }} %</td>
                                             <td>Rp. {{ income.variable_income | intcomma }}</td>
                                             <td>Rp. {{ income.total_income | intcomma }}</td>
                                         </tr>
@@ -59,8 +92,10 @@
                                     <tfoot>
                                     <tr>
                                         <th>Nama</th>
-                                        <th>History Income</th>
-                                        <th>Position Income</th>
+                                        <th>Persentase History Income</th>
+                                        <th>History</th>
+                                        <th>Persentase Jabatan Income</th>
+                                        <th>Jabatan</th>
                                         <th>Total Fix Income</th>
                                         <th>{{ total_score }}</th>
                                         <th>{{ total_index }}</th>

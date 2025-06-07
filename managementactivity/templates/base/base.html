@@ -159,7 +159,6 @@
                 </div>
 
             </li>
-            {% if perms.incomecalculation.view_managerialincome and perms.incomecalculation.change_managerialincome %}
             <li class="nav-item">
                 <a href="{% url 'managerial-income-index' %}" class="nav-link text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -169,7 +168,6 @@
                     <span class="small d-block">Income</span>
                 </a>
             </li>
-            {% endif %}
             <li class="nav-item dropup">
                 <a href="#" class="nav-link text-center" role="button" id="dropdownMenuProfile" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
