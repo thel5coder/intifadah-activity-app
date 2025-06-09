@@ -59,16 +59,12 @@ def index(request):
                 managerial_income.fix_income_var = fix_income
 
             total_variable_income = (master_income.VariableIncome / 100) * master_income.MonthlyIncome
-            print(Decimal(str((master_income.HistoryIncome / 100))))
             history_income = Decimal(str((master_income.HistoryIncome / 100))) * master_income.MonthlyIncome
             position_income = Decimal(str((master_income.PositionIncome / 100))) * master_income.MonthlyIncome
 
             master_income.value_variable_income = total_variable_income
             master_income.value_history_income = history_income
             master_income.value_position_income = position_income
-
-            for managerial_income in managerial_incomes:
-                print(managerial_income.fix_income_var.history_income_percentage)
 
         else:
             q = ManagerialActivity.objects.with_month('ActivityDateTime').filter(
@@ -82,7 +78,6 @@ def index(request):
 
             # calculate and save
             total_variable_income = (master_income.VariableIncome / 100) * master_income.MonthlyIncome
-            print(Decimal(str((master_income.HistoryIncome / 100))))
             history_income = Decimal(str((master_income.HistoryIncome / 100))) * master_income.MonthlyIncome
             position_income = Decimal(str((master_income.PositionIncome / 100))) * master_income.MonthlyIncome
             master_income.value_variable_income = total_variable_income
@@ -159,10 +154,10 @@ def index(request):
     return render(request, 'managerialincome/index.html',
                   {'list_of_months': list_of_months, 'total_score': total_all_score,
                    'managerial_incomes': managerial_incomes, 'master_income': master_income,
-                   'total_index': round(total_index,1), 'month': month, 'selected_month': month,
+                   'total_index': round(total_index, 1), 'month': month, 'selected_month': month,
                    'total_percentage_history': total_percentage_history,
                    'total_percentage_position': total_percentage_position, 'total_history_value': total_history_value,
-                   'total_position_value': total_position_value, 'total_variable_value': total_variable_value, })
+                   'total_position_value': total_position_value, 'total_variable_value': round(total_variable_value,1), })
 
 
 def edit_variable_income(request):
@@ -186,11 +181,12 @@ def edit_variable_income(request):
             master_income = MasterIncome.objects.get(Month=month)
             new_managerial_incomes = []
             total_variable_income = (master_income.VariableIncome / 100) * master_income.MonthlyIncome
+            divider_variable_income = Decimal(str(total_variable_income)) / total_all_score
             for income in managerial_incomes:
                 index_score = round(income.total_score / total_all_score * 100, 2)
-                variable_income = round((index_score / 100) * Decimal(str(total_variable_income)), 2)
+                variable_income = round(income.total_score * divider_variable_income)
                 total_income = income.fix_income + variable_income
-                income.variable_income = round(variable_income, 2)
+                income.variable_income = variable_income
                 income.index = index_score
                 income.total_income = total_income
 
