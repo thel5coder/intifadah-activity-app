@@ -184,7 +184,7 @@ def edit_variable_income(request):
             divider_variable_income = Decimal(str(total_variable_income)) / total_all_score
             for income in managerial_incomes:
                 index_score = round(income.total_score / total_all_score * 100, 2)
-                variable_income = round(income.total_score * divider_variable_income)
+                variable_income = income.total_score * divider_variable_income
                 total_income = income.fix_income + variable_income
                 income.variable_income = variable_income
                 income.index = index_score
