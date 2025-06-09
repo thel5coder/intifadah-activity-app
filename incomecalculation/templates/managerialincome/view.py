@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from incomecalculation.models import ManagerialIncome, ManagerialFixIncome
 from managementactivity.models import MasterIncome, ManagerialActivity
 from django.shortcuts import render, redirect
@@ -6,6 +7,8 @@ from django.db.models import Sum
 from django.contrib.auth.models import User
 from decimal import Decimal
 from django.core.exceptions import ObjectDoesNotExist
+import json
+from django.core.serializers import serialize
 
 
 def index(request):
@@ -32,14 +35,15 @@ def index(request):
             for instance in instances:
                 total_all_score += instance.total_score
                 total_index += instance.index
-                managerial_incomes.append(ManagerialIncome(index=instance.index, total_score=instance.total_score,
-                                                           user_id=instance.user_id,
-                                                           variable_income=instance.variable_income,
-                                                           history_income=instance.history_income,
-                                                           position_income=instance.position_income,
-                                                           fix_income=instance.fix_income,
-                                                           total_income=instance.total_income,
-                                                           month=month))
+                managerial_incomes.append(
+                    ManagerialIncome(id=instance.id, index=instance.index, total_score=instance.total_score,
+                                     user_id=instance.user_id,
+                                     variable_income=instance.variable_income,
+                                     history_income=instance.history_income,
+                                     position_income=instance.position_income,
+                                     fix_income=instance.fix_income,
+                                     total_income=instance.total_income,
+                                     month=month))
             for managerial_income in managerial_incomes:
                 managerial_income.user_managerial = User.objects.get(id=managerial_income.user_id)
                 try:
@@ -62,6 +66,9 @@ def index(request):
             master_income.value_variable_income = total_variable_income
             master_income.value_history_income = history_income
             master_income.value_position_income = position_income
+
+            for managerial_income in managerial_incomes:
+                print(managerial_income.fix_income_var.history_income_percentage)
 
         else:
             q = ManagerialActivity.objects.with_month('ActivityDateTime').filter(
@@ -145,10 +152,66 @@ def index(request):
                 managerial_income.fix_income_var = fix_income
 
     list_of_months = MasterIncome.objects.all()
+    for list_month in list_of_months:
+        if month != 0 and int(list_month.Month) == int(month):
+            list_month.selected = "selected"
 
     return render(request, 'managerialincome/index.html',
                   {'list_of_months': list_of_months, 'total_score': total_all_score,
                    'managerial_incomes': managerial_incomes, 'master_income': master_income,
-                   'total_index': total_index, 'month': month, 'total_percentage_history': total_percentage_history,
+                   'total_index': total_index, 'month': month, 'selected_month': month,
+                   'total_percentage_history': total_percentage_history,
                    'total_percentage_position': total_percentage_position, 'total_history_value': total_history_value,
                    'total_position_value': total_position_value, 'total_variable_value': total_variable_value, })
+
+
+def edit_variable_income(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+
+            managerial_income_id = int(data['managerial_income_id'])
+            score = int(data['score'])
+            month = int(data['month'])
+
+            managerial_income = ManagerialIncome.objects.get(id=managerial_income_id)
+            managerial_income.total_score = score
+            managerial_income.save()
+
+            total_all_score = 0
+            managerial_incomes = ManagerialIncome.objects.filter(month=month)
+            for income in managerial_incomes:
+                total_all_score += income.total_score
+
+            master_income = MasterIncome.objects.get(Month=month)
+            new_managerial_incomes = []
+            for income in managerial_incomes:
+                total_variable_income = (master_income.VariableIncome / 100) * master_income.MonthlyIncome
+                index_score = round(income.total_score / total_all_score * 100, 2)
+                variable_income = round((index_score / 100) * Decimal(str(total_variable_income)), 2)
+                total_income = income.fix_income + variable_income
+                income.variable_income = round(variable_income, 2)
+                income.index = index_score
+                income.total_income = total_income
+
+                new_managerial_incomes.append(
+                    ManagerialIncome(id=income.id, index=index_score, total_score=income.total_score,
+                                     user_id=income.user_id,
+                                     variable_income=round(variable_income, 0),
+                                     history_income=income.history_income,
+                                     position_income=income.position_income,
+                                     fix_income=income.fix_income,
+                                     total_income=total_income,
+                                     month=month))
+
+            ManagerialIncome.objects.bulk_update(managerial_incomes, ['index', 'variable_income', 'total_income'])
+            serialize_data = serialize('json', new_managerial_incomes)
+            serialize_data = json.loads(serialize_data)
+
+            return JsonResponse(
+                {'id': managerial_income_id, 'score': score, 'managerial_income': serialize_data},
+                status=200)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'id': None}, status=200)

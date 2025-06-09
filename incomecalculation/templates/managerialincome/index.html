@@ -3,8 +3,34 @@
 {% load humanize %}
 {% block pagejs %}
     <script type="application/javascript">
+        var csrf_token = '{{ csrf_token }}'
         $(document).ready(function () {
-
+            $('.btn-saveScore').click(function () {
+                let id = $(this).attr('id')
+                let splitText = id.split("-")
+                if (splitText[0] === "btnSaveScore") {
+                    axios.post('/income/variable-income', {
+                        managerial_income_id: splitText[1],
+                        score: $('#score-' + splitText[1]).val(),
+                        month: $('#month').val()
+                    }, {
+                        headers: {
+                            'X-CSRFTOKEN': csrf_token,
+                        },
+                    })
+                        .then(response => {
+                            if (response.status == 200) {
+                                alert('Data berhasil di simpan, untuk melihat hasil perhitungan terbaru refresh halaman dan pilih ulang bulan')
+                            }else{
+                                alert('Gagal menyimpan data')
+                            }
+                        })
+                        .catch(error => {
+                            console.log(error)
+                            alert('Gagal menyimpan data')
+                        });
+                }
+            })
         })
     </script>
 {% endblock %}
@@ -20,8 +46,8 @@
                                     {% csrf_token %}
                                     <select class="form-control mr-2" id="month" name="month">
                                         <option value="0">Pilih Bulan</option>
-                                        {% for month in list_of_months %}
-                                            <option value="{{ month.Month }}">{{ month.Month }}</option>
+                                        {% for list in list_of_months %}
+                                            <option value="{{ list.Month }}" {{ list.selected }}>{{ list.Month }}</option>
                                         {% endfor %}
                                     </select>
                                     <button type="submit" class="btn btn-primary">Pilih</button>
@@ -64,10 +90,11 @@
                                     {% for income in managerial_incomes %}
                                         <tr>
                                             <td>
-                                                {% if  income.user_managerial.first_name == 'Admin'%}
+                                                {% if  income.user_managerial.first_name == 'Admin' %}
                                                     Bansos
                                                 {% else %}
-                                                    {{ income.user_managerial.first_name }} {{ income.user.user_managerial.last_name }}
+                                                    {{ income.user_managerial.first_name }}
+                                                    {{ income.user.user_managerial.last_name }}
                                                 {% endif %}
                                             </td>
                                             <td>{% if income.fix_income_var %}
@@ -81,9 +108,11 @@
                                             <td>Rp. {{ income.fix_income | intcomma }}</td>
                                             {% if perms.incomecalculation.view_managerialincome and perms.incomecalculation.change_managerialincome %}
                                                 <td>
-                                                    <input style="width: 50px;" type="number" name="score" id="score"
-                                                           value="{{ income.total_score }}"/>
-                                                    <button type="button" class="btn btn-primary btn-sm ml-3"
+                                                    <input style="width: 50px;" type="number" name="score"
+                                                           id="score-{{ income.id }}"
+                                                           value="{{ income.total_score }}" class="totalScore"/>
+                                                    <button type="button"
+                                                            class="btn btn-primary btn-sm ml-3 btn-saveScore"
                                                             id="btnSaveScore-{{ income.id }}">Simpan
                                                     </button>
                                                 </td>
