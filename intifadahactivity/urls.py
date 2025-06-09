@@ -42,6 +42,7 @@ urlpatterns = [
     path('user/', user.create, name='user-create'),
 
     path("income/", managerial_income.index, name='managerial-income-index'),
+    path("income/variable-income", managerial_income.edit_variable_income, name='edit-score-variable-income'),
 
     path('activity/', activity.index, name='activity-list'),
     path('activity/all', activity.all_activity, name='activity-all'),
