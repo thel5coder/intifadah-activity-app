@@ -30,7 +30,7 @@ def index(request):
             list_of_months = MasterIncome.objects.all()
             return render(request, 'managerialincome/index.html', {'list_of_months': list_of_months})
 
-        instances = ManagerialIncome.objects.all().filter(month=month)
+        instances = ManagerialIncome.objects.all().filter(month=month).order_by('-index')
         if len(instances) > 0:
             for instance in instances:
                 total_all_score += instance.total_score
