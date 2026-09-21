@@ -3,6 +3,10 @@ from email.policy import default
 from django.db import models
 from .utils import ActivityStatus
 from django.contrib.auth.models import User
+from datetime import datetime
+from django.db.models import F, Func, ExpressionWrapper
+from django.db.models.functions import ExtractMonth
+from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
@@ -68,6 +72,23 @@ class ActivityApproval(TimeStampModel):
         return f"{self.ActivityTypeId} | {self.UserId.first_name}"
 
 
+class EpochToDateTime(Func):
+    function = 'to_timestamp'
+    template = "%(function)s(%(expressions)s)"
+    output_field = models.DateTimeField()
+
+
+class EpochQuerySet(models.QuerySet):
+    def with_month(self, field):
+        return self.annotate(
+            datetime_field=ExpressionWrapper(
+                EpochToDateTime(F(field)),
+                output_field=models.DateTimeField()
+            ),
+            month=ExtractMonth(F('datetime_field'))
+        )
+
+
 class ManagerialActivity(TimeStampModel):
     ManagerialUser = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
     ActivityDetail = models.TextField()
@@ -81,11 +102,18 @@ class ManagerialActivity(TimeStampModel):
     ApprovedAt = models.IntegerField(null=True)
     ApprovedById = models.IntegerField(null=True)
 
+    objects = EpochQuerySet.as_manager()
+
+    @property
+    def activity_epoch_to_datetime(self):
+        date_time = datetime.fromtimestamp(self.ActivityDateTime)
+        return date_time
+
     class Meta:
         db_table = 'managerial_activities'
         verbose_name_plural = 'Managerial Activities'
         permissions = [
-            ("update_ActivityStatus", "Dapat merubah status aktivitas")
+            ("update_activity_status", "Dapat merubah status aktivitas")
         ]
 
     def __str__(self):

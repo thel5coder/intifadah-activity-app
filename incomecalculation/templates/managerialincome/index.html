@@ -1,0 +1,153 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block pagejs %}
+    <script type="application/javascript">
+        var csrf_token = '{{ csrf_token }}'
+        $(document).ready(function () {
+            $('.btn-saveScore').click(function () {
+                let id = $(this).attr('id')
+                let splitText = id.split("-")
+                if (splitText[0] === "btnSaveScore") {
+                    axios.post('/income/variable-income', {
+                        managerial_income_id: splitText[1],
+                        score: $('#score-' + splitText[1]).val(),
+                        month: $('#month').val()
+                    }, {
+                        headers: {
+                            'X-CSRFTOKEN': csrf_token,
+                        },
+                    })
+                        .then(response => {
+                            if (response.status == 200) {
+                                alert('Data berhasil di simpan, untuk melihat hasil perhitungan terbaru refresh halaman dan pilih ulang bulan')
+                            }else{
+                                alert('Gagal menyimpan data')
+                            }
+                        })
+                        .catch(error => {
+                            console.log(error)
+                            alert('Gagal menyimpan data')
+                        });
+                }
+            })
+        })
+    </script>
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card shadow mb-4 mt-4">
+                    <div class="card-header py-3">
+                        <div class="row">
+                            <div class="col">
+                                <form method="post" class="form-inline form-validate">
+                                    {% csrf_token %}
+                                    <select class="form-control mr-2" id="month" name="month">
+                                        <option value="0">Pilih Bulan</option>
+                                        {% for list in list_of_months %}
+                                            <option value="{{ list.Month }}" {{ list.selected }}>{{ list.Month }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" class="btn btn-primary">Pilih</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Income bulan {% if month %}
+                            {{ month }} {% endif %} : {% if master_income.MonthlyIncome %}
+                            <span class="font-weight-bolder">Rp. {{ master_income.MonthlyIncome | intcomma }}</span>{% endif %}
+                        </h5>
+                        <div class="row">
+                            <div class="col">
+                                <table class="table table-bordered table-responsive-sm table-responsive-sm">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th rowspan="3">Nama</th>
+                                        <th colspan="4">Fix Income</th>
+                                        <th rowspan="3">Total Fix Income</th>
+                                        <th rowspan="2" colspan="3">Variable Income</th>
+                                        <th rowspan="2">Total Income</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2">History</th>
+                                        <th colspan="2">Jabatan</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 50px;">{{ master_income.HistoryIncome }} %</th>
+                                        <th>Rp. {{ master_income.value_history_income | intcomma }}</th>
+                                        <th style="width: 50px;">{{ master_income.PositionIncome }} %</th>
+                                        <th>Rp. {{ master_income.value_position_income | intcomma }}</th>
+                                        <th>Score</th>
+                                        <th>{{ master_income.VariableIncome }} %</th>
+                                        <th>Rp. {{ master_income.value_variable_income | intcomma }}</th>
+                                        <th>Rp. {{ master_income.MonthlyIncome | intcomma }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for income in managerial_incomes %}
+                                        <tr>
+                                            <td>
+                                                {% if  income.user_managerial.first_name == 'Admin' %}
+                                                    Bansos
+                                                {% else %}
+                                                    {{ income.user_managerial.first_name }}
+                                                    {{ income.user.user_managerial.last_name }}
+                                                {% endif %}
+                                            </td>
+                                            <td>{% if income.fix_income_var %}
+                                                {{ income.fix_income_var.history_income_percentage }} % {% else %} 0
+                                                % {% endif %}</td>
+                                            <td>Rp. {{ income.history_income | intcomma }}</td>
+                                            <td>{% if income.fix_income_var %}
+                                                {{ income.fix_income_var.position_income_percentage }} % {% else %} 0
+                                                % {% endif %}</td>
+                                            <td>Rp. {{ income.position_income | intcomma }}</td>
+                                            <td>Rp. {{ income.fix_income | intcomma }}</td>
+                                            {% if perms.incomecalculation.view_managerialincome and perms.incomecalculation.change_managerialincome %}
+                                                <td>
+                                                    <input style="width: 50px;" type="number" name="score"
+                                                           id="score-{{ income.id }}"
+                                                           value="{{ income.total_score }}" class="totalScore"/>
+                                                    <button type="button"
+                                                            class="btn btn-primary btn-sm ml-3 btn-saveScore"
+                                                            id="btnSaveScore-{{ income.id }}">Simpan
+                                                    </button>
+                                                </td>
+                                            {% else %}
+                                                <td>{{ income.total_score }}</td>
+                                            {% endif %}
+                                            <td>{{ income.index }} %</td>
+                                            <td>Rp. {{ income.variable_income | intcomma }}</td>
+                                            <td>Rp. {{ income.total_income | intcomma }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>{{ total_percentage_history }} %</th>
+                                        <th>Rp. {% if total_history_value %}
+                                            {{ total_history_value | intcomma }} {% else %} 0 {% endif %}</th>
+                                        <th>{{ total_percentage_position }} %</th>
+                                        <th>Rp. {% if total_position_value %}
+                                            {{ total_position_value | intcomma }} {% else %} 0 {% endif %}</th>
+                                        <th>Total Fix Income</th>
+                                        <th>{{ total_score }}</th>
+                                        <th>{{ total_index }}</th>
+                                        <th>Rp. {% if total_variable_value %}
+                                            {{ total_variable_value | intcomma }} {% else %} 0 {% endif %}</th>
+                                        <th>Total Income</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

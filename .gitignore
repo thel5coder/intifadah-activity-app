@@ -7,6 +7,15 @@ __pycache__/
     # Virtual environment
 venv/
 myenv/
+env/
+
+.env
+
+.idea/
+.DS_store
+
+
+intifadahactivity/.env
 
     # Package distribution
 *.egg
