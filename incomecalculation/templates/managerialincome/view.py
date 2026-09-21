@@ -45,7 +45,7 @@ def index(request):
                                      total_income=instance.total_income,
                                      month=month))
             for managerial_income in managerial_incomes:
-                managerial_income.user_managerial = User.objects.get(id=managerial_income.user_id)
+                managerial_income.user_managerial = User.objects.filter(is_active=True).filter(id=managerial_income.user_id)
                 try:
                     fix_income = ManagerialFixIncome.objects.get(user_id=managerial_income.user_id)
                     total_percentage_history += fix_income.history_income_percentage
